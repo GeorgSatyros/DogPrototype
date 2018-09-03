@@ -3,17 +3,25 @@ using System.Collections;
 
 public class MovementCamera : MonoBehaviour {
 
-	public GameObject target;
-	public float speedMove = 1.0f;
 
-	Vector3 point;
 
-	void Start () {
-		point = target.transform.position;
-//		transform.LookAt(point);
-	}
+    public GameObject player;       //Public variable to store a reference to the player game object
 
-	void Update () {
-		transform.RotateAround (point,new Vector3(0.0f,1.0f,0.0f),20 * Time.deltaTime * speedMove);
-	}
+
+    private Vector3 offset;         //Private variable to store the offset distance between the player and camera
+
+    // Use this for initialization
+    void Start()
+    {
+        //Calculate and store the offset value by getting the distance between the player's position and camera's position.
+        offset = transform.position - player.transform.position;
+    }
+
+    // LateUpdate is called after Update each frame
+    void LateUpdate()
+    {
+        // Set the position of the camera's transform to be the same as the player's, but offset by the calculated offset distance.
+        transform.position = player.transform.position + offset;
+    }
 }
+
